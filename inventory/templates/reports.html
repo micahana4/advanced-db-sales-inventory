@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="eyebrow">Management reporting</p>
+<h1>{{ title }}</h1>
+<nav class="d-flex flex-wrap gap-2 mb-3">
+  {% for code, label in reports.items %}<a class="btn {% if code == kind %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?kind={{ code }}">{{ label }}</a>{% endfor %}
+</nav>
+<section class="panel mb-3">
+  <form method="get" class="row g-3 align-items-end">
+    <input type="hidden" name="kind" value="{{ kind }}">
+    {% for field in form %}<div class="col-sm">{{ field.errors }}{{ field.label_tag }}{{ field }}</div>{% endfor %}
+    <div class="col-sm-auto"><button class="btn btn-primary">Run report</button></div>
+  </form>
+</section>
+{% if columns %}
+<section class="panel">
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <strong class="me-auto">{{ scope }}</strong>
+    <a class="btn btn-outline-primary" href="?{{ query }}&amp;export=pdf">Download PDF</a>
+    <a class="btn btn-outline-primary" href="?{{ query }}&amp;export=xlsx">Download Excel</a>
+  </div>
+  {% if kind == "movement" %}<p>Ranked by units sold, with the fastest at the top and the slowest at the bottom.</p>{% endif %}
+  <div class="table-responsive"><table class="table">
+    <thead><tr>{% for column in columns %}<th>{{ column }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for row in rows %}<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+    {% empty %}<tr><td colspan="{{ columns|length }}">No matching records.</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endif %}
+{% endblock %}

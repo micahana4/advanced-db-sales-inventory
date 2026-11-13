@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel mx-auto" style="max-width:440px">
+  <p class="eyebrow">Store operations</p><h1 class="h3">Sign in</h1>
+  <form method="post">{% csrf_token %}{{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn btn-primary">Sign in</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+body { background: #f1f5f7; color: #142938; }
+.brand { background: #102e3a; }
+main { max-width: 1160px; margin: auto; }
+.panel { background: white; border: 1px solid #dce5e9; border-radius: 1rem; padding: 1.25rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; color: #466272; font-weight: 700; }
+form label { font-weight: 600; }
+form input:not([type=hidden]), form select { display: block; width: 100%; padding: .45rem; border: 1px solid #aebec6; border-radius: .35rem; }
+.errorlist { color: #a91b29; }
+@media print { nav, .no-print { display: none !important; } body { background: white; } .panel { border: 0; } }

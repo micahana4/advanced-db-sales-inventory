@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Sales & Inventory{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'inventory/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/app.css' %}">
+</head>
+<body>
+<nav class="brand text-white px-3 py-3">
+  <div class="container d-flex flex-wrap gap-3 align-items-center">
+    <a class="text-white fw-bold text-decoration-none me-auto" href="{% url 'dashboard' %}">Sales & Inventory</a>
+    {% if user.is_authenticated %}
+      {% if user.is_superuser %}<a class="text-white" href="{% url 'reports' %}">Reports</a>{% endif %}
+      {% if user.is_staff %}<a class="text-white" href="{% url 'admin:index' %}">Manage records</a>{% endif %}
+      <span>{{ user.username }}</span>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-light">Sign out</button></form>
+    {% endif %}
+  </div>
+</nav>
+<main class="px-3 py-4">{% block content %}{% endblock %}</main>
+</body>
+</html>

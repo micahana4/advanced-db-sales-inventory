@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <p class="eyebrow">Posted record #{{ record.pk }}</p>
+  <h1>{% if record.kind == "sale" %}Sales receipt{% elif record.kind == "purchase" %}Stock-in record{% else %}{{ record.get_kind_display }}{% endif %}</h1>
+  <p>{{ record.created_at }} · {{ record.operator }}</p>
+  {% if record.supplier %}<p>Supplier {{ record.supplier }}</p>{% endif %}
+  {% if record.reference %}<p>Reference {{ record.reference }}</p>{% endif %}
+  <div class="table-responsive"><table class="table">
+    <thead><tr><th>Item</th><th>Qty</th><th>Unit (PHP)</th><th>Amount (PHP)</th><th>Stock after</th></tr></thead>
+    <tbody>{% for line in record.lines.all %}<tr><td>{{ line.product_label }}</td><td>{{ line.quantity }}</td><td>{{ line.unit_price }}</td><td>{{ line.amount }}</td><td>{{ line.stock_after }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <dl class="row">
+    <dt class="col-6">Subtotal (PHP)</dt><dd class="col-6">{{ record.subtotal }}</dd>
+    <dt class="col-6">Tax (PHP)</dt><dd class="col-6">{{ record.tax }}</dd>
+    <dt class="col-6">Total (PHP)</dt><dd class="col-6">{{ record.total }}</dd>
+    {% if record.kind == "sale" %}
+      <dt class="col-6">Cash received (PHP)</dt><dd class="col-6">{{ record.tendered }}</dd>
+      <dt class="col-6">Change (PHP)</dt><dd class="col-6">{{ record.change }}</dd>
+    {% endif %}
+  </dl>
+  <a class="btn btn-outline-primary no-print" href="{% url 'dashboard' %}">Back to dashboard</a>
+  <button type="button" class="btn btn-primary no-print" onclick="window.print()">Print</button>
+</section>
+{% endblock %}
