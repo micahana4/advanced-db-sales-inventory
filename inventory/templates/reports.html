@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize %}
+{% load numbers %}
 {% block content %}
 <p class="eyebrow">Management reporting</p>
 <h1>{{ title }}</h1>
@@ -23,7 +23,7 @@
   {% if kind == "movement" %}<p>Ranked by units sold, with the fastest at the top and the slowest at the bottom.</p>{% endif %}
   <div class="table-responsive"><table class="table">
     <thead><tr>{% for column in columns %}<th>{{ column }}</th>{% endfor %}</tr></thead>
-    <tbody>{% for row in rows %}<tr>{% for value in row %}<td>{{ value|intcomma }}</td>{% endfor %}</tr>
+    <tbody>{% for row in rows %}<tr>{% for value in row %}<td>{{ value|numeric_intcomma }}</td>{% endfor %}</tr>
     {% empty %}<tr><td colspan="{{ columns|length }}">No matching records.</td></tr>{% endfor %}</tbody>
   </table></div>
 </section>
