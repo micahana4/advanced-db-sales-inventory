@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
 <p class="eyebrow">Store operations</p>
 <h1>Inventory dashboard</h1>
@@ -8,7 +9,7 @@
 {% if low_stock %}
 <section class="alert alert-warning" aria-label="Reorder alerts">
   <strong>Reorder needed</strong>
-  {% for item in low_stock %}<span class="d-inline-block ms-2">{{ item.sku }} · {{ item.stock }} left</span>{% endfor %}
+  {% for item in low_stock %}<span class="d-inline-block ms-2">{{ item.sku }} · {{ item.stock|intcomma }} left</span>{% endfor %}
 </section>
 {% endif %}
 <section class="panel mb-3">
@@ -24,7 +25,7 @@
   <div class="table-responsive"><table class="table align-middle">
     <thead><tr><th>SKU</th><th>Product</th><th>Category</th><th>Price (PHP)</th><th>In stock</th><th>Reorder at</th></tr></thead>
     <tbody>{% for item in products %}
-      <tr><td>{{ item.sku }}</td><td>{{ item.name }}</td><td>{{ item.category }}</td><td>{{ item.price }}</td><td>{{ item.stock }}</td><td>{{ item.reorder_level }}</td></tr>
+      <tr><td>{{ item.sku }}</td><td>{{ item.name }}</td><td>{{ item.category }}</td><td>{{ item.price|intcomma }}</td><td>{{ item.stock|intcomma }}</td><td>{{ item.reorder_level|intcomma }}</td></tr>
     {% empty %}<tr><td colspan="6">No matching products.</td></tr>{% endfor %}</tbody>
   </table></div>
 </section>
@@ -33,7 +34,7 @@
   <div class="table-responsive"><table class="table">
     <thead><tr><th>Record</th><th>Date</th><th>Supplier</th><th>Operator</th><th>Total (PHP)</th></tr></thead>
     <tbody>{% for record in history %}
-      <tr><td><a href="{% url 'receipt' record.pk %}">#{{ record.pk }} · {{ record.get_kind_display }}</a></td><td>{{ record.created_at }}</td><td>{{ record.supplier|default:"—" }}</td><td>{{ record.operator }}</td><td>{{ record.total }}</td></tr>
+      <tr><td><a href="{% url 'receipt' record.pk %}">#{{ record.pk }} · {{ record.get_kind_display }}</a></td><td>{{ record.created_at }}</td><td>{{ record.supplier|default:"—" }}</td><td>{{ record.operator }}</td><td>{{ record.total|intcomma }}</td></tr>
     {% empty %}<tr><td colspan="5">No transactions to show.</td></tr>{% endfor %}</tbody>
   </table></div>
 </section>

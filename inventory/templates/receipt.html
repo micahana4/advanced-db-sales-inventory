@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
 <section class="panel">
   <p class="eyebrow">Posted record #{{ record.pk }}</p>
@@ -8,15 +9,15 @@
   {% if record.reference %}<p>Reference {{ record.reference }}</p>{% endif %}
   <div class="table-responsive"><table class="table">
     <thead><tr><th>Item</th><th>Qty</th><th>Unit (PHP)</th><th>Amount (PHP)</th><th>Stock after</th></tr></thead>
-    <tbody>{% for line in record.lines.all %}<tr><td>{{ line.product_label }}</td><td>{{ line.quantity }}</td><td>{{ line.unit_price }}</td><td>{{ line.amount }}</td><td>{{ line.stock_after }}</td></tr>{% endfor %}</tbody>
+    <tbody>{% for line in record.lines.all %}<tr><td>{{ line.product_label }}</td><td>{{ line.quantity|intcomma }}</td><td>{{ line.unit_price|intcomma }}</td><td>{{ line.amount|intcomma }}</td><td>{{ line.stock_after|intcomma }}</td></tr>{% endfor %}</tbody>
   </table></div>
   <dl class="row">
-    <dt class="col-6">Subtotal (PHP)</dt><dd class="col-6">{{ record.subtotal }}</dd>
-    <dt class="col-6">Tax (PHP)</dt><dd class="col-6">{{ record.tax }}</dd>
-    <dt class="col-6">Total (PHP)</dt><dd class="col-6">{{ record.total }}</dd>
+    <dt class="col-6">Subtotal (PHP)</dt><dd class="col-6">{{ record.subtotal|intcomma }}</dd>
+    <dt class="col-6">Tax (PHP)</dt><dd class="col-6">{{ record.tax|intcomma }}</dd>
+    <dt class="col-6">Total (PHP)</dt><dd class="col-6">{{ record.total|intcomma }}</dd>
     {% if record.kind == "sale" %}
-      <dt class="col-6">Cash received (PHP)</dt><dd class="col-6">{{ record.tendered }}</dd>
-      <dt class="col-6">Change (PHP)</dt><dd class="col-6">{{ record.change }}</dd>
+      <dt class="col-6">Cash received (PHP)</dt><dd class="col-6">{{ record.tendered|intcomma }}</dd>
+      <dt class="col-6">Change (PHP)</dt><dd class="col-6">{{ record.change|intcomma }}</dd>
     {% endif %}
   </dl>
   <a class="btn btn-outline-primary no-print" href="{% url 'dashboard' %}">Back to dashboard</a>
